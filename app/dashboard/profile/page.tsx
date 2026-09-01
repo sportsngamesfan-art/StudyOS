@@ -138,7 +138,7 @@ export default function ProfilePage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     )
   }
@@ -150,34 +150,34 @@ export default function ProfilePage() {
   return (
     <div className="space-y-6 max-w-2xl">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Profile & Account</h1>
-        <p className="text-gray-600 mt-1">Manage your account settings</p>
+        <h1 className="text-3xl font-bold text-ink">Profile &amp; Account</h1>
+        <p className="text-muted mt-1">Manage your account settings</p>
       </div>
 
       {/* Account Info Card */}
-      <div className="bg-white rounded-lg p-6 shadow">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Account Information</h2>
+      <div className="bg-surface rounded-xl p-6 shadow-sm border border-line transition-theme">
+        <h2 className="text-xl font-semibold text-ink mb-4">Account Information</h2>
 
         <div className="space-y-4">
           {/* Email */}
-          <div className="pb-4 border-b border-gray-200">
-            <p className="text-sm text-gray-600 mb-1">Email Address</p>
-            <p className="text-lg font-medium text-gray-900">{user.email}</p>
-            <div className="mt-2 inline-block px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-semibold">
+          <div className="pb-4 border-b border-line">
+            <p className="text-sm text-muted mb-1">Email Address</p>
+            <p className="text-lg font-medium text-ink">{user.email}</p>
+            <div className="mt-2 inline-block px-3 py-1 bg-success/10 text-success rounded-full text-xs font-semibold">
               ✓ Verified
             </div>
           </div>
 
           {/* Account Created */}
-          <div className="pb-4 border-b border-gray-200">
-            <p className="text-sm text-gray-600 mb-1">Account Created</p>
-            <p className="text-lg font-medium text-gray-900">{accountCreatedDate}</p>
+          <div className="pb-4 border-b border-line">
+            <p className="text-sm text-muted mb-1">Account Created</p>
+            <p className="text-lg font-medium text-ink">{accountCreatedDate}</p>
           </div>
 
           {/* Last Login */}
           <div>
-            <p className="text-sm text-gray-600 mb-1">Last Login</p>
-            <p className="text-lg font-medium text-gray-900">
+            <p className="text-sm text-muted mb-1">Last Login</p>
+            <p className="text-lg font-medium text-ink">
               {lastLogin || 'Just now'}
             </p>
           </div>
@@ -185,53 +185,53 @@ export default function ProfilePage() {
       </div>
 
       {/* Change Password Section */}
-      <div className="bg-white rounded-lg p-6 shadow">
+      <div className="bg-surface rounded-xl p-6 shadow-sm border border-line transition-theme">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-900">Security</h2>
+          <h2 className="text-xl font-semibold text-ink">Security</h2>
           {passwordSuccess && (
-            <div className="text-sm text-green-600 font-medium">✓ {passwordSuccess}</div>
+            <div className="text-sm text-success font-medium">✓ {passwordSuccess}</div>
           )}
         </div>
 
         {!showPasswordForm ? (
           <button
             onClick={() => setShowPasswordForm(true)}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
+            className="w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-primary-hover transition-theme"
           >
             Change Password
           </button>
         ) : (
           <form onSubmit={handleChangePassword} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-ink mb-1">
                 New Password
               </label>
               <input
                 type="password"
                 value={newPassword}
                 onChange={(e) => setNewPassword(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 bg-background border border-line text-ink rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="At least 8 characters"
                 required
               />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-ink mb-1">
                 Confirm Password
               </label>
               <input
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 bg-background border border-line text-ink rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="Confirm password"
                 required
               />
             </div>
 
             {passwordError && (
-              <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
+              <div className="p-3 bg-error/10 border border-error/30 text-error rounded-lg text-sm">
                 {passwordError}
               </div>
             )}
@@ -240,7 +240,7 @@ export default function ProfilePage() {
               <button
                 type="submit"
                 disabled={updatingPassword}
-                className="flex-1 bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50"
+                className="flex-1 bg-primary text-white py-2 rounded-lg font-semibold hover:bg-primary-hover transition-theme disabled:opacity-50"
               >
                 {updatingPassword ? 'Updating...' : 'Update Password'}
               </button>
@@ -252,7 +252,7 @@ export default function ProfilePage() {
                   setConfirmPassword('')
                   setPasswordError('')
                 }}
-                className="flex-1 bg-gray-200 text-gray-900 py-2 rounded-lg font-semibold hover:bg-gray-300 transition"
+                className="flex-1 bg-transparent border border-line text-ink py-2 rounded-lg font-semibold hover:bg-surface-hover transition-theme"
               >
                 Cancel
               </button>
@@ -262,34 +262,34 @@ export default function ProfilePage() {
       </div>
 
       {/* Session Management */}
-      <div className="bg-white rounded-lg p-6 shadow">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Session Management</h2>
+      <div className="bg-surface rounded-xl p-6 shadow-sm border border-line transition-theme">
+        <h2 className="text-xl font-semibold text-ink mb-4">Session Management</h2>
 
         <button
           onClick={handleLogoutAllDevices}
-          className="w-full bg-orange-600 text-white py-2 rounded-lg font-semibold hover:bg-orange-700 transition"
+          className="w-full bg-warning text-white py-2 rounded-lg font-semibold hover:opacity-90 transition-theme"
         >
           Logout from All Devices
         </button>
-        <p className="text-xs text-gray-600 mt-2">
+        <p className="text-xs text-muted mt-2">
           Sign out on all devices where you&apos;re logged in
         </p>
       </div>
 
       {/* Danger Zone */}
-      <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-        <h2 className="text-xl font-semibold text-red-900 mb-4">Danger Zone</h2>
+      <div className="bg-error/5 border border-error/30 rounded-xl p-6">
+        <h2 className="text-xl font-semibold text-error mb-4">Danger Zone</h2>
 
         {!deleteConfirm ? (
           <button
             onClick={handleDeleteAccount}
-            className="w-full bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-700 transition"
+            className="w-full bg-error text-white py-2 rounded-lg font-semibold hover:opacity-90 transition-theme"
           >
             Delete Account
           </button>
         ) : (
           <div className="space-y-4">
-            <div className="bg-red-100 border border-red-400 text-red-900 p-4 rounded-lg">
+            <div className="bg-error/10 border border-error/40 text-error p-4 rounded-lg">
               <p className="font-semibold mb-2">⚠️ This action cannot be undone!</p>
               <p className="text-sm">
                 Deleting your account will permanently remove all your data including:
@@ -305,13 +305,13 @@ export default function ProfilePage() {
               <button
                 onClick={handleDeleteAccount}
                 disabled={deleting}
-                className="flex-1 bg-red-600 text-white py-2 rounded-lg font-semibold hover:bg-red-700 transition disabled:opacity-50"
+                className="flex-1 bg-error text-white py-2 rounded-lg font-semibold hover:opacity-90 transition-theme disabled:opacity-50"
               >
                 {deleting ? 'Deleting...' : 'Yes, Delete My Account'}
               </button>
               <button
                 onClick={() => setDeleteConfirm(false)}
-                className="flex-1 bg-gray-200 text-gray-900 py-2 rounded-lg font-semibold hover:bg-gray-300 transition"
+                className="flex-1 bg-transparent border border-line text-ink py-2 rounded-lg font-semibold hover:bg-surface-hover transition-theme"
               >
                 Cancel
               </button>
@@ -321,8 +321,8 @@ export default function ProfilePage() {
       </div>
 
       {/* Info Box */}
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-        <p className="text-sm text-blue-900">
+      <div className="bg-primary-light border border-primary/20 rounded-lg p-4">
+        <p className="text-sm text-ink">
           💡 Need help? Contact our support team at support@studyos.app
         </p>
       </div>

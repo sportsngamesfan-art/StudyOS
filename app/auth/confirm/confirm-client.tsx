@@ -83,13 +83,13 @@ export default function ConfirmEmailClient() {
   }
 
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
+    <main className="min-h-screen bg-background transition-theme flex items-center justify-center p-4">
+      <div className="bg-surface rounded-xl shadow-xl border border-line p-8 w-full max-w-md transition-theme">
         {/* Icon */}
         <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-primary-light rounded-full mb-4">
             <svg
-              className="w-8 h-8 text-blue-600"
+              className="w-8 h-8 text-primary"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -103,32 +103,32 @@ export default function ConfirmEmailClient() {
             </svg>
           </div>
 
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+          <h1 className="text-2xl font-bold text-ink mb-2">
             Confirm Your Email
           </h1>
-          <p className="text-gray-600">
-            We sent a confirmation link to <span className="font-semibold">{email}</span>
+          <p className="text-muted">
+            We sent a confirmation link to <span className="font-semibold text-ink">{email}</span>
           </p>
         </div>
 
         {/* Steps */}
-        <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-          <h2 className="font-semibold text-gray-900 mb-3">What&apos;s next:</h2>
-          <ol className="space-y-2 text-sm text-gray-700">
+        <div className="bg-primary-light border border-primary/20 rounded-lg p-4 mb-6">
+          <h2 className="font-semibold text-ink mb-3">What&apos;s next:</h2>
+          <ol className="space-y-2 text-sm text-ink/80">
             <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-5 h-5 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+              <span className="flex-shrink-0 w-5 h-5 bg-primary text-white rounded-full flex items-center justify-center text-xs font-bold">
                 1
               </span>
               <span>Check your email inbox</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-5 h-5 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+              <span className="flex-shrink-0 w-5 h-5 bg-primary text-white rounded-full flex items-center justify-center text-xs font-bold">
                 2
               </span>
               <span>Click the confirmation link</span>
             </li>
             <li className="flex items-start gap-3">
-              <span className="flex-shrink-0 w-5 h-5 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
+              <span className="flex-shrink-0 w-5 h-5 bg-primary text-white rounded-full flex items-center justify-center text-xs font-bold">
                 3
               </span>
               <span>You&apos;re all set! Log in to your account</span>
@@ -138,36 +138,36 @@ export default function ConfirmEmailClient() {
 
         {/* Messages */}
         {error && (
-          <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg mb-4 text-sm">
+          <div className="p-3 bg-error/10 border border-error/30 text-error rounded-lg mb-4 text-sm">
             {error}
           </div>
         )}
 
         {success && (
-          <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg mb-4 text-sm">
+          <div className="p-3 bg-success/10 border border-success/30 text-success rounded-lg mb-4 text-sm">
             {success}
           </div>
         )}
 
         {/* Resend Button */}
         <div className="mb-6">
-          <p className="text-sm text-gray-600 mb-3">
+          <p className="text-sm text-muted mb-3">
             Didn&apos;t receive the email? Check your spam folder or
           </p>
           <button
             onClick={handleResendEmail}
             disabled={resending}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-primary text-white py-2 rounded-lg font-semibold hover:bg-primary-hover transition-theme disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {resending ? 'Resending...' : 'Resend Confirmation Email'}
           </button>
         </div>
 
         {/* Timer */}
-        <div className="text-center mb-6 p-3 bg-gray-50 rounded-lg">
-          <p className="text-sm text-gray-600">
+        <div className="text-center mb-6 p-3 bg-background rounded-lg border border-line">
+          <p className="text-sm text-muted">
             Auto-redirecting to login in{' '}
-            <span className="font-mono font-bold text-blue-600">
+            <span className="font-mono font-bold text-primary">
               {formatTime(timeLeft)}
             </span>
           </p>
@@ -177,14 +177,14 @@ export default function ConfirmEmailClient() {
         <div className="flex gap-4 text-center text-sm">
           <Link
             href="/auth"
-            className="flex-1 text-blue-600 hover:text-blue-700 font-semibold"
+            className="flex-1 text-primary hover:text-primary-hover font-semibold"
           >
             Back to Login
           </Link>
-          <div className="w-px bg-gray-300"></div>
+          <div className="w-px bg-line"></div>
           <Link
             href="/"
-            className="flex-1 text-gray-600 hover:text-gray-700"
+            className="flex-1 text-muted hover:text-ink"
           >
             Home
           </Link>

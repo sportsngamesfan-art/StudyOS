@@ -132,12 +132,12 @@ export default function TimetablePage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Timetable</h1>
-          <p className="text-gray-600 mt-1">Manage your class schedule</p>
+          <h1 className="text-3xl font-bold text-ink">Timetable</h1>
+          <p className="text-muted mt-1">Manage your class schedule</p>
         </div>
         <button
           onClick={() => setShowForm(!showForm)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+          className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-hover transition"
         >
           {showForm ? '✕ Cancel' : '+ Add Class'}
         </button>
@@ -145,14 +145,14 @@ export default function TimetablePage() {
 
       {/* Add Class Form */}
       {showForm && (
-        <div className="bg-white rounded-lg p-6 shadow">
-          <h2 className="text-lg font-semibold mb-4 text-gray-900">
+        <div className="bg-surface rounded-lg p-6 shadow">
+          <h2 className="text-lg font-semibold mb-4 text-ink">
             Add New Class
           </h2>
           <form onSubmit={handleAddClass} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-ink mb-1">
                   Subject *
                 </label>
                 <input
@@ -162,13 +162,13 @@ export default function TimetablePage() {
                     setFormData({ ...formData, subject: e.target.value })
                   }
                   placeholder="e.g., Mathematics"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-line rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-ink mb-1">
                   Day *
                 </label>
                 <select
@@ -176,7 +176,7 @@ export default function TimetablePage() {
                   onChange={(e) =>
                     setFormData({ ...formData, day: e.target.value })
                   }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-line rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   {DAYS.map((day) => (
                     <option key={day} value={day}>
@@ -187,7 +187,7 @@ export default function TimetablePage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-ink mb-1">
                   Start Time *
                 </label>
                 <input
@@ -196,13 +196,13 @@ export default function TimetablePage() {
                   onChange={(e) =>
                     setFormData({ ...formData, start_time: e.target.value })
                   }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-line rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-ink mb-1">
                   End Time *
                 </label>
                 <input
@@ -211,13 +211,13 @@ export default function TimetablePage() {
                   onChange={(e) =>
                     setFormData({ ...formData, end_time: e.target.value })
                   }
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-line rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                   required
                 />
               </div>
 
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">
+                <label className="block text-sm font-medium text-ink mb-1">
                   Room
                 </label>
                 <input
@@ -227,14 +227,14 @@ export default function TimetablePage() {
                     setFormData({ ...formData, room: e.target.value })
                   }
                   placeholder="e.g., Room 101"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="w-full px-4 py-2 border border-line rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 />
               </div>
             </div>
 
             <button
               type="submit"
-              className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
+              className="bg-accent text-white px-6 py-2 rounded-lg hover:bg-accent-hover transition"
             >
               Add Class
             </button>
@@ -244,13 +244,13 @@ export default function TimetablePage() {
 
       {/* Messages */}
       {error && (
-        <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+        <div className="p-4 bg-error/10 border border-error/30 text-error rounded">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+        <div className="p-4 bg-success/10 border border-success/30 text-success rounded">
           {success}
         </div>
       )}
@@ -258,37 +258,37 @@ export default function TimetablePage() {
       {/* Weekly View */}
       {loading ? (
         <div className="text-center py-12">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {DAYS.map((day) => (
             <div
               key={day}
-              className="bg-white rounded-lg p-4 shadow"
+              className="bg-surface rounded-lg p-4 shadow"
             >
-              <h3 className="font-semibold text-gray-900 mb-3">{day}</h3>
+              <h3 className="font-semibold text-ink mb-3">{day}</h3>
               {groupedClasses[day].length === 0 ? (
-                <p className="text-gray-500 text-sm">No classes</p>
+                <p className="text-muted text-sm">No classes</p>
               ) : (
                 <div className="space-y-2">
                   {groupedClasses[day].map((cls) => (
                     <div
                       key={cls.id}
-                      className="bg-blue-50 border border-blue-200 rounded p-2 text-sm"
+                      className="bg-primary-light border border-primary/20 rounded p-2 text-sm"
                     >
-                      <div className="font-medium text-gray-900">
+                      <div className="font-medium text-ink">
                         {cls.subject}
                       </div>
-                      <div className="text-gray-600 text-xs">
+                      <div className="text-muted text-xs">
                         {cls.start_time} - {cls.end_time}
                       </div>
                       {cls.room && (
-                        <div className="text-gray-600 text-xs">{cls.room}</div>
+                        <div className="text-muted text-xs">{cls.room}</div>
                       )}
                       <button
                         onClick={() => handleDeleteClass(cls.id)}
-                        className="text-red-600 hover:text-red-800 text-xs font-semibold mt-1"
+                        className="text-error hover:opacity-80 text-xs font-semibold mt-1"
                       >
                         Delete
                       </button>

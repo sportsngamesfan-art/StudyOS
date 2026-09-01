@@ -2,17 +2,112 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@layer base {
+  :root {
+    /* Blue (default) */
+    --color-primary: #3b82f6;
+    --color-primary-hover: #2563eb;
+    --color-primary-light: #dbeafe;
+    --color-secondary: #8b5cf6;
+    --color-secondary-hover: #7c3aed;
+    --color-accent: #10b981;
+    --color-accent-hover: #059669;
 
-html {
-  scroll-behavior: smooth;
-}
+    --color-success: #10b981;
+    --color-warning: #f59e0b;
+    --color-error: #ef4444;
 
-body {
-  background-color: #f9fafb;
-  color: #111827;
+    --color-background: #f9fafb;
+    --color-surface: #ffffff;
+    --color-surface-hover: #f3f4f6;
+    --color-border: #e5e7eb;
+    --color-ink: #1f2937;
+    --color-muted: #6b7280;
+
+    --animation-duration: 200ms;
+  }
+
+  [data-scheme='purple'] {
+    --color-primary: #8b5cf6;
+    --color-primary-hover: #7c3aed;
+    --color-primary-light: #ede9fe;
+    --color-secondary: #3b82f6;
+    --color-secondary-hover: #2563eb;
+  }
+
+  [data-scheme='green'] {
+    --color-primary: #10b981;
+    --color-primary-hover: #059669;
+    --color-primary-light: #d1fae5;
+    --color-secondary: #3b82f6;
+    --color-secondary-hover: #2563eb;
+  }
+
+  [data-scheme='orange'] {
+    --color-primary: #f97316;
+    --color-primary-hover: #ea580c;
+    --color-primary-light: #ffedd5;
+    --color-secondary: #8b5cf6;
+    --color-secondary-hover: #7c3aed;
+  }
+
+  .dark {
+    --color-background: #0f172a;
+    --color-surface: #1e293b;
+    --color-surface-hover: #273449;
+    --color-border: #334155;
+    --color-ink: #f1f5f9;
+    --color-muted: #94a3b8;
+    --color-primary-light: rgba(59, 130, 246, 0.16);
+  }
+
+  .dark[data-scheme='purple'] {
+    --color-primary-light: rgba(139, 92, 246, 0.18);
+  }
+  .dark[data-scheme='green'] {
+    --color-primary-light: rgba(16, 185, 129, 0.18);
+  }
+  .dark[data-scheme='orange'] {
+    --color-primary-light: rgba(249, 115, 22, 0.18);
+  }
+
+  [data-animations='off'] {
+    --animation-duration: 0ms;
+  }
+
+  [data-font-size='small'] {
+    font-size: 14px;
+  }
+  [data-font-size='normal'] {
+    font-size: 16px;
+  }
+  [data-font-size='large'] {
+    font-size: 18px;
+  }
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-ink);
+    font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+    transition:
+      background-color var(--animation-duration) ease,
+      color var(--animation-duration) ease;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
 }

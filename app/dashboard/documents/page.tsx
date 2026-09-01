@@ -139,21 +139,21 @@ export default function DocumentsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Documents</h1>
-        <p className="text-gray-600 mt-1">
+        <h1 className="text-3xl font-bold text-ink">Documents</h1>
+        <p className="text-muted mt-1">
           Upload and manage your study materials
         </p>
       </div>
 
       {/* Upload Card */}
-      <div className="bg-white rounded-lg p-8 shadow border-2 border-dashed border-blue-300">
+      <div className="bg-surface rounded-lg p-8 shadow border-2 border-dashed border-primary/40">
         <div className="space-y-4">
           <div className="text-center">
             <div className="text-4xl mb-2">📤</div>
-            <h2 className="text-lg font-semibold text-gray-900 mb-1">
+            <h2 className="text-lg font-semibold text-ink mb-1">
               Upload Documents
             </h2>
-            <p className="text-gray-600 text-sm">
+            <p className="text-muted text-sm">
               PDF and image files only (max 10MB)
             </p>
           </div>
@@ -167,8 +167,8 @@ export default function DocumentsPage() {
           />
 
           {uploading && (
-            <div className="text-center text-gray-600">
-              <div className="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600 mr-2"></div>
+            <div className="text-center text-muted">
+              <div className="inline-block animate-spin rounded-full h-5 w-5 border-b-2 border-primary mr-2"></div>
               Uploading...
             </div>
           )}
@@ -177,62 +177,62 @@ export default function DocumentsPage() {
 
       {/* Messages */}
       {error && (
-        <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+        <div className="p-4 bg-error/10 border border-error/30 text-error rounded">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+        <div className="p-4 bg-success/10 border border-success/30 text-success rounded">
           {success}
         </div>
       )}
 
       {/* Documents List */}
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="bg-surface rounded-lg shadow overflow-hidden">
         {loading ? (
           <div className="p-8 text-center">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
           </div>
         ) : documents.length === 0 ? (
-          <div className="p-8 text-center text-gray-600">
+          <div className="p-8 text-center text-muted">
             No documents uploaded yet. Start by uploading a file!
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b border-gray-200">
+              <thead className="bg-background border-b border-line">
                 <tr>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
+                  <th className="px-6 py-3 text-left text-sm font-semibold text-ink">
                     Filename
                   </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
+                  <th className="px-6 py-3 text-left text-sm font-semibold text-ink">
                     Size
                   </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
+                  <th className="px-6 py-3 text-left text-sm font-semibold text-ink">
                     Uploaded
                   </th>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
+                  <th className="px-6 py-3 text-left text-sm font-semibold text-ink">
                     Action
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200">
+              <tbody className="divide-y divide-line">
                 {documents.map((doc) => (
-                  <tr key={doc.id} className="hover:bg-gray-50 transition">
-                    <td className="px-6 py-4 text-sm text-gray-900">
+                  <tr key={doc.id} className="hover:bg-surface-hover transition">
+                    <td className="px-6 py-4 text-sm text-ink">
                       {doc.filename}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
+                    <td className="px-6 py-4 text-sm text-muted">
                       {formatFileSize(doc.file_size)}
                     </td>
-                    <td className="px-6 py-4 text-sm text-gray-600">
+                    <td className="px-6 py-4 text-sm text-muted">
                       {formatDate(doc.created_at)}
                     </td>
                     <td className="px-6 py-4 text-sm">
                       <button
                         onClick={() => handleDelete(doc)}
-                        className="text-red-600 hover:text-red-800 font-semibold transition"
+                        className="text-error hover:opacity-80 font-semibold transition"
                       >
                         Delete
                       </button>

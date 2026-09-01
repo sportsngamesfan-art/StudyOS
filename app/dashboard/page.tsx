@@ -37,11 +37,11 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold text-gray-900">Welcome to StudyOS</h1>
+      <h1 className="text-3xl font-bold text-ink">Welcome to StudyOS</h1>
 
       {loading ? (
         <div className="text-center py-12">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -66,9 +66,9 @@ export default function DashboardPage() {
         </div>
       )}
 
-      <div className="bg-white rounded-lg p-6 shadow">
-        <h2 className="text-xl font-semibold mb-4 text-gray-900">Getting Started</h2>
-        <ul className="space-y-2 text-gray-700">
+      <div className="bg-surface rounded-xl p-6 shadow-sm border border-line transition-theme">
+        <h2 className="text-xl font-semibold mb-4 text-ink">Getting Started</h2>
+        <ul className="space-y-2 text-muted">
           <li>✓ Upload study materials to Documents</li>
           <li>✓ Set up your timetable with class schedules</li>
           <li>✓ Create assignments and deadlines</li>
@@ -93,14 +93,16 @@ function StatCard({
   return (
     <a
       href={href}
-      className="bg-white rounded-lg p-6 shadow hover:shadow-lg transition cursor-pointer"
+      className="bg-surface rounded-xl p-6 shadow-sm border border-line hover:shadow-md hover:-translate-y-0.5 transition-theme cursor-pointer block"
     >
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-gray-600 text-sm">{title}</p>
-          <p className="text-3xl font-bold text-gray-900">{value}</p>
+          <p className="text-muted text-sm">{title}</p>
+          <p className="text-3xl font-bold text-ink">{value}</p>
         </div>
-        <div className="text-4xl">{icon}</div>
+        <div className="w-12 h-12 rounded-lg bg-primary-light flex items-center justify-center text-2xl">
+          {icon}
+        </div>
       </div>
     </a>
   )

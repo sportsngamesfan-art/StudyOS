@@ -165,10 +165,10 @@ Return ONLY the JSON array, no other text.`
 
   const getPriorityColor = (priority: string) => {
     return priority === 'high'
-      ? 'bg-red-100 border-red-300'
+      ? 'bg-error/10 border-error/40'
       : priority === 'medium'
-        ? 'bg-yellow-100 border-yellow-300'
-        : 'bg-green-100 border-green-300'
+        ? 'bg-warning/10 border-warning/40'
+        : 'bg-success/10 border-success/40'
   }
 
   // Group plan by date
@@ -186,15 +186,15 @@ Return ONLY the JSON array, no other text.`
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Study Plan</h1>
-          <p className="text-gray-600 mt-1">
+          <h1 className="text-3xl font-bold text-ink">Study Plan</h1>
+          <p className="text-muted mt-1">
             AI-generated smart study schedule
           </p>
         </div>
         <button
           onClick={generateStudyPlan}
           disabled={generating}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-hover transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
         >
           {generating ? (
             <>
@@ -209,13 +209,13 @@ Return ONLY the JSON array, no other text.`
 
       {/* Messages */}
       {error && (
-        <div className="p-4 bg-red-100 border border-red-400 text-red-700 rounded">
+        <div className="p-4 bg-error/10 border border-error/30 text-error rounded">
           {error}
         </div>
       )}
 
       {success && (
-        <div className="p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+        <div className="p-4 bg-success/10 border border-success/30 text-success rounded">
           {success}
         </div>
       )}
@@ -223,22 +223,22 @@ Return ONLY the JSON array, no other text.`
       {/* Study Plan */}
       {loading ? (
         <div className="text-center py-12">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
       ) : sortedDates.length === 0 ? (
-        <div className="bg-white rounded-lg p-12 shadow text-center">
+        <div className="bg-surface rounded-lg p-12 shadow text-center">
           <div className="text-4xl mb-4">🎯</div>
-          <h2 className="text-xl font-semibold text-gray-900 mb-2">
+          <h2 className="text-xl font-semibold text-ink mb-2">
             No study plan yet
           </h2>
-          <p className="text-gray-600 mb-6">
+          <p className="text-muted mb-6">
             Generate a personalized study plan based on your assignments and
             timetable
           </p>
           <button
             onClick={generateStudyPlan}
             disabled={generating}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-primary text-white px-6 py-2 rounded-lg hover:bg-primary-hover transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {generating ? 'Generating...' : 'Generate Study Plan'}
           </button>
@@ -247,27 +247,27 @@ Return ONLY the JSON array, no other text.`
         <div className="space-y-6">
           {sortedDates.map((date) => (
             <div key={date} className="space-y-3">
-              <h2 className="text-lg font-semibold text-gray-900">
+              <h2 className="text-lg font-semibold text-ink">
                 {formatDate(date)}
               </h2>
               {groupedPlan[date].map((item, idx) => (
                 <div
                   key={idx}
-                  className={`border-l-4 rounded-lg p-4 bg-white shadow hover:shadow-md transition ${getPriorityColor(
+                  className={`border-l-4 rounded-lg p-4 bg-surface shadow hover:shadow-md transition ${getPriorityColor(
                     item.priority
                   )}`}
                 >
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-gray-900">
+                      <h3 className="font-semibold text-ink">
                         {item.subject}
                       </h3>
-                      <p className="text-sm text-gray-600 mt-1">{item.task}</p>
+                      <p className="text-sm text-muted mt-1">{item.task}</p>
                       <div className="flex items-center gap-3 mt-3">
-                        <span className="text-xs bg-gray-200 text-gray-800 px-2 py-1 rounded">
+                        <span className="text-xs bg-line text-ink px-2 py-1 rounded">
                           {item.duration}h
                         </span>
-                        <span className="text-xs font-semibold text-gray-700 capitalize">
+                        <span className="text-xs font-semibold text-ink capitalize">
                           {item.priority} Priority
                         </span>
                       </div>
@@ -279,8 +279,8 @@ Return ONLY the JSON array, no other text.`
             </div>
           ))}
 
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
-            <p className="text-sm text-blue-900">
+          <div className="bg-primary-light border border-primary/20 rounded-lg p-4 mt-6">
+            <p className="text-sm text-ink">
               💡 <strong>Tip:</strong> Adjust study sessions as needed. The plan
               adapts to your priorities and schedule.
             </p>
