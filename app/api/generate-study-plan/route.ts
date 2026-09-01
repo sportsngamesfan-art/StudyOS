@@ -1,19 +1,20 @@
-import { groq } from '@/lib/groq'
+import { getGroqClient } from '@/lib/groq'
 import { NextRequest, NextResponse } from 'next/server'
+
+export const dynamic = 'force-dynamic'
 
 export async function POST(request: NextRequest) {
   try {
     const { prompt } = await request.json()
 
     if (!prompt) {
-      return NextResponse.json(
-        { error: 'Prompt is required' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Prompt is required' }, { status: 400 })
     }
 
+    const groq = getGroqClient()
+
     const message = await groq.chat.completions.create({
-      model: 'mixtral-8x7b-32768',
+      model: 'llama-3.3-70b-versatile',
       max_tokens: 2048,
       messages: [
         {
@@ -44,10 +45,8 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ plan })
   } catch (error) {
     console.error('Error generating study plan:', error)
-    const message = error instanceof Error ? error.message : 'Failed to generate study plan'
-    return NextResponse.json(
-      { error: message },
-      { status: 500 }
-    )
+    const message =
+      error instanceof Error ? error.message : 'Failed to generate study plan'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }
