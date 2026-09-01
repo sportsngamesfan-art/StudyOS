@@ -35,9 +35,8 @@ export default function AuthPage() {
           password,
         })
         if (signUpError) throw signUpError
-        setSuccess('Signup successful! Please check your email to confirm.')
-        setEmail('')
-        setPassword('')
+        setSuccess('Signup successful! Redirecting to email confirmation...')
+        setTimeout(() => router.push(`/auth/confirm?email=${encodeURIComponent(email)}`), 1000)
       }
     } catch (err) {
       console.error('Auth error:', err)

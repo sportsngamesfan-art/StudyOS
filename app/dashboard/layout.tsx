@@ -112,6 +112,22 @@ export default function DashboardLayout({
             label="Study Plan"
             sidebarOpen={sidebarOpen}
           />
+
+          {/* Divider */}
+          <div className="my-4 border-t border-gray-700"></div>
+
+          <NavLink
+            href="/dashboard/settings"
+            icon="⚙️"
+            label="Settings"
+            sidebarOpen={sidebarOpen}
+          />
+          <NavLink
+            href="/dashboard/profile"
+            icon="👤"
+            label="Profile"
+            sidebarOpen={sidebarOpen}
+          />
         </nav>
 
         <div className="p-4 border-t border-gray-800 space-y-2">
