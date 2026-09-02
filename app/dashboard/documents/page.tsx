@@ -71,6 +71,11 @@ export default function DocumentsPage() {
         throw new Error('Only PDF and image files are allowed')
       }
 
+      const MAX_BYTES = 10 * 1024 * 1024
+      if (file.size > MAX_BYTES) {
+        throw new Error('File is larger than the 10MB limit')
+      }
+
       const filename = `${Date.now()}-${file.name}`
       const filePath = `${user.id}/${filename}`
 

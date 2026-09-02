@@ -122,6 +122,9 @@ export default function TimetablePage() {
     }
   }
 
+  // Postgres `time` columns come back as "09:00:00"; show "09:00".
+  const formatTime = (time: string) => time?.slice(0, 5) ?? ''
+
   // Group classes by day
   const groupedClasses: Record<string, Class[]> = {}
   DAYS.forEach((day) => {
@@ -281,7 +284,7 @@ export default function TimetablePage() {
                         {cls.subject}
                       </div>
                       <div className="text-muted text-xs">
-                        {cls.start_time} - {cls.end_time}
+                        {formatTime(cls.start_time)} - {formatTime(cls.end_time)}
                       </div>
                       {cls.room && (
                         <div className="text-muted text-xs">{cls.room}</div>
