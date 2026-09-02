@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabase'
+import { supabase, isSupabaseConfigured } from '@/lib/supabase'
 import Link from 'next/link'
 
 export default function AuthPage() {
@@ -18,6 +18,14 @@ export default function AuthPage() {
     e.preventDefault()
     setError('')
     setSuccess('')
+
+    if (!isSupabaseConfigured) {
+      setError(
+        'Supabase is not configured for this deployment. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in your Vercel project settings, then redeploy.'
+      )
+      return
+    }
+
     setLoading(true)
 
     try {
@@ -50,13 +58,7 @@ export default function AuthPage() {
   }
 
   return (
-    <main
-      className="min-h-screen flex items-center justify-center p-4"
-      style={{
-        background:
-          'linear-gradient(135deg, var(--color-primary), var(--color-secondary))',
-      }}
-    >
+    <main className="min-h-screen flex items-center justify-center p-4 bg-brand-gradient">
       <div className="bg-surface rounded-xl shadow-2xl p-8 w-full max-w-md transition-theme">
         <h1 className="text-3xl font-bold text-center mb-2 text-ink">
           StudyOS

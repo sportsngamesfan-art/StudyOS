@@ -1,15 +1,13 @@
 'use client'
 
 import { useTheme } from '@/components/theme-provider'
-import { ColorScheme, FontSize } from '@/lib/theme'
+import { COLOR_SCHEMES, ColorScheme, FontSize } from '@/lib/theme'
 import { useState } from 'react'
 
-const COLOR_SWATCHES: { key: ColorScheme; label: string; hex: string }[] = [
-  { key: 'blue', label: 'Blue', hex: '#3B82F6' },
-  { key: 'purple', label: 'Purple', hex: '#8B5CF6' },
-  { key: 'green', label: 'Green', hex: '#10B981' },
-  { key: 'orange', label: 'Orange', hex: '#F97316' },
-]
+// Derived from the single palette source so swatches can never drift from CSS.
+const COLOR_SWATCHES = (
+  Object.keys(COLOR_SCHEMES) as ColorScheme[]
+).map((key) => ({ key, ...COLOR_SCHEMES[key] }))
 
 const FONT_SIZES: { key: FontSize; label: string; px: string }[] = [
   { key: 'small', label: 'Small', px: '14px' },
@@ -89,8 +87,10 @@ export default function SettingsPage() {
                   }`}
                 >
                   <span
-                    className="w-4 h-4 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: scheme.hex }}
+                    className="w-5 h-5 rounded-full flex-shrink-0 border border-black/10"
+                    style={{
+                      background: `linear-gradient(135deg, ${scheme.primary}, ${scheme.secondary})`,
+                    }}
                   />
                   <span className="text-ink text-sm">{scheme.label}</span>
                 </button>

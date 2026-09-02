@@ -1,5 +1,5 @@
 export type Theme = 'light' | 'dark'
-export type ColorScheme = 'blue' | 'purple' | 'green' | 'orange'
+export type ColorScheme = 'blue' | 'black' | 'sky' | 'indigo'
 export type FontSize = 'small' | 'normal' | 'large'
 
 export interface ThemeSettings {
@@ -16,62 +16,18 @@ export const DEFAULT_THEME_SETTINGS: ThemeSettings = {
   animations: true,
 }
 
-export const COLOR_SCHEMES: Record<ColorScheme, Record<string, string>> = {
-  blue: {
-    primary: '#3B82F6',
-    secondary: '#1D4ED8',
-    accent: '#10B981',
-    light: '#DBEAFE',
-  },
-  purple: {
-    primary: '#8B5CF6',
-    secondary: '#6D28D9',
-    accent: '#10B981',
-    light: '#EDE9FE',
-  },
-  green: {
-    primary: '#10B981',
-    secondary: '#059669',
-    accent: '#3B82F6',
-    light: '#D1FAE5',
-  },
-  orange: {
-    primary: '#F97316',
-    secondary: '#EA580C',
-    accent: '#3B82F6',
-    light: '#FED7AA',
-  },
-}
-
-export function getThemeStyles(settings: ThemeSettings): string {
-  const colors = COLOR_SCHEMES[settings.colorScheme]
-  const isDark = settings.theme === 'dark'
-
-  const fontSizeMap = {
-    small: '0.9',
-    normal: '1',
-    large: '1.1',
-  }
-
-  return `
-    :root {
-      --primary: ${colors.primary};
-      --secondary: ${colors.secondary};
-      --accent: ${colors.accent};
-      --primary-light: ${colors.light};
-      --neutral-900: ${isDark ? '#F9FAFB' : '#1F2937'};
-      --neutral-100: ${isDark ? '#1F2937' : '#F9FAFB'};
-      --font-scale: ${fontSizeMap[settings.fontSize]};
-      --transition: ${settings.animations ? '0.3s ease' : '0s'};
-    }
-
-    body {
-      background-color: var(--neutral-100);
-      color: var(--neutral-900);
-      transition: background-color var(--transition), color var(--transition);
-      font-size: calc(16px * var(--font-scale));
-    }
-  `
+/**
+ * Swatches shown in Settings. The real colors live in globals.css under the
+ * matching [data-scheme='...'] block — these are just previews of them.
+ */
+export const COLOR_SCHEMES: Record<
+  ColorScheme,
+  { label: string; primary: string; secondary: string }
+> = {
+  blue: { label: 'Blue', primary: '#2563EB', secondary: '#0F172A' },
+  black: { label: 'Black', primary: '#0F172A', secondary: '#000000' },
+  sky: { label: 'Sky', primary: '#0284C7', secondary: '#0F172A' },
+  indigo: { label: 'Indigo', primary: '#4338CA', secondary: '#0F172A' },
 }
 
 export function saveThemeSettings(settings: ThemeSettings): void {
