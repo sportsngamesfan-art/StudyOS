@@ -11,21 +11,6 @@ interface StudyPlan {
   priority: 'high' | 'medium' | 'low'
 }
 
-interface TimetableClass {
-  day: string
-  subject: string
-  start_time: string
-  end_time: string
-}
-
-interface Assignment {
-  title: string
-  subject: string
-  deadline: string
-  difficulty: string
-  hours_required: number
-}
-
 export default function StudyPlanPage() {
   const [plan, setPlan] = useState<StudyPlan[]>([])
   const [loading, setLoading] = useState(false)
@@ -61,39 +46,9 @@ export default function StudyPlanPage() {
     setSuccess('')
 
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-      if (!user) throw new Error('Not authenticated')
-
-      // Fetch timetable and assignments
-      const [timetableRes, assignmentsRes] = await Promise.all([
-        supabase
-          .from('timetable')
-          .select('*')
-          .eq('user_id', user.id),
-        supabase
-          .from('assignments')
-          .select('*')
-          .eq('user_id', user.id)
-          .eq('completed', false),
-      ])
-
-      if (timetableRes.error) throw timetableRes.error
-      if (assignmentsRes.error) throw assignmentsRes.error
-
-      const timetable: TimetableClass[] = timetableRes.data || []
-      const assignments: Assignment[] = assignmentsRes.data || []
-
-      // Create prompt for Groq API
-      const prompt = buildStudyPlanPrompt(timetable, assignments)
-
-      // Call API to generate plan
-      const response = await fetch('/api/generate-study-plan', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, timetable, assignments }),
-      })
+      // The route identifies the user from the session cookie, reads their
+      // own timetable and assignments, and builds the prompt server-side.
+      const response = await fetch('/api/generate-study-plan', { method: 'POST' })
 
       if (!response.ok) {
         const errorData = await response.json()
@@ -109,50 +64,6 @@ export default function StudyPlanPage() {
     } finally {
       setGenerating(false)
     }
-  }
-
-  const buildStudyPlanPrompt = (
-    timetable: TimetableClass[],
-    assignments: Assignment[]
-  ) => {
-    const today = new Date()
-    const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000)
-
-    let prompt = `Create a detailed study plan for the next week (${today.toLocaleDateString()} to ${nextWeek.toLocaleDateString()}).
-
-Classes scheduled:
-${timetable.map((c) => `- ${c.day}: ${c.subject} (${c.start_time}-${c.end_time})`).join('\n') || '- No classes scheduled'}
-
-Pending assignments:
-${assignments
-  .map(
-    (a) =>
-      `- ${a.title} (${a.subject}): Due ${new Date(a.deadline).toLocaleDateString()}, ${a.difficulty} difficulty, ${a.hours_required} hours required`
-  )
-  .join('\n') || '- No assignments'}
-
-Please provide a structured study plan that:
-1. Avoids scheduled classes
-2. Prioritizes urgent assignments (closest deadlines first)
-3. Allocates appropriate time based on difficulty and required hours
-4. Includes study breaks
-5. Balances study across different subjects
-6. Is realistic and achievable
-
-Format the response as a JSON array with this structure:
-[
-  {
-    "date": "YYYY-MM-DD",
-    "subject": "Subject name",
-    "duration": hours as number,
-    "task": "specific task or topic",
-    "priority": "high|medium|low"
-  }
-]
-
-Return ONLY the JSON array, no other text.`
-
-    return prompt
   }
 
   const formatDate = (date: string) => {

@@ -1,19 +1,14 @@
-import { createClient } from '@supabase/supabase-js'
+/**
+ * Compatibility shim. Existing pages import `{ supabase }` from '@/lib/supabase';
+ * they keep working unchanged, but the client underneath now comes from
+ * @supabase/ssr, so the session lives in cookies and is visible to
+ * middleware.ts and route handlers.
+ *
+ * Note: '@/lib/supabase' resolves to this file, while '@/lib/supabase/client'
+ * etc. resolve into the sibling directory. New code should import from the
+ * directory modules directly.
+ */
+import { createClient } from './supabase/client'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-
-export const isSupabaseConfigured = Boolean(supabaseUrl && supabaseKey)
-
-if (!isSupabaseConfigured && typeof window !== 'undefined') {
-  console.warn(
-    'Supabase env vars are missing. Set NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY.'
-  )
-}
-
-// Fall back to a harmless placeholder so `createClient` cannot throw during
-// the production build, when env vars are not injected into the build step.
-export const supabase = createClient(
-  supabaseUrl || 'https://placeholder.supabase.co',
-  supabaseKey || 'placeholder-anon-key'
-)
+export { isSupabaseConfigured } from './supabase/env'
+export const supabase = createClient()

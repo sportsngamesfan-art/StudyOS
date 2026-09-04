@@ -109,15 +109,16 @@ export default function ProfilePage() {
     setDeleting(true)
 
     try {
-      // First sign out
-      await supabase.auth.signOut()
+      const res = await fetch('/api/account/delete', { method: 'POST' })
+      const body = await res.json().catch(() => ({}))
+      if (!res.ok) throw new Error(body.error || 'Failed to delete account')
 
-      // Then delete the account (requires admin or custom setup)
-      // For now, just redirect to auth with a message
-      router.push('/auth?deleted=true')
+      await supabase.auth.signOut()
+      router.push('/auth?deleted=1')
+      router.refresh()
     } catch (err) {
       console.error('Account deletion error:', err)
-      alert('Failed to delete account. Please contact support.')
+      alert(err instanceof Error ? err.message : 'Failed to delete account.')
     } finally {
       setDeleting(false)
     }

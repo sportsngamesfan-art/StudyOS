@@ -1,41 +1,61 @@
+import { NextResponse } from 'next/server'
+import { createClient } from '@/lib/supabase/server'
 import { getGroqClient } from '@/lib/groq'
-import { NextRequest, NextResponse } from 'next/server'
+import { buildStudyPlanPrompt } from '@/lib/study-plan-prompt'
 
 export const dynamic = 'force-dynamic'
 
-export async function POST(request: NextRequest) {
-  try {
-    const { prompt } = await request.json()
+/**
+ * Generates a study plan for the signed-in user.
+ *
+ * The request body is deliberately ignored. The route reads the caller's own
+ * timetable and pending assignments (RLS scopes the queries to them) and
+ * builds the prompt itself, so it cannot be used as a general-purpose proxy
+ * to the Groq key.
+ */
+export async function POST() {
+  const supabase = createClient()
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
 
-    if (!prompt) {
-      return NextResponse.json({ error: 'Prompt is required' }, { status: 400 })
-    }
+  if (!user) {
+    return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
+  }
+
+  try {
+    const [timetableRes, assignmentsRes] = await Promise.all([
+      supabase
+        .from('timetable')
+        .select('day, subject, start_time, end_time')
+        .eq('user_id', user.id),
+      supabase
+        .from('assignments')
+        .select('title, subject, deadline, difficulty, hours_required')
+        .eq('user_id', user.id)
+        .eq('completed', false),
+    ])
+    if (timetableRes.error) throw timetableRes.error
+    if (assignmentsRes.error) throw assignmentsRes.error
+
+    const prompt = buildStudyPlanPrompt(
+      timetableRes.data ?? [],
+      assignmentsRes.data ?? []
+    )
 
     const groq = getGroqClient()
-
-    const message = await groq.chat.completions.create({
+    const completion = await groq.chat.completions.create({
       model: 'llama-3.3-70b-versatile',
       max_tokens: 2048,
-      messages: [
-        {
-          role: 'user',
-          content: prompt,
-        },
-      ],
+      messages: [{ role: 'user', content: prompt }],
     })
 
-    const responseText = message.choices[0]?.message?.content || ''
+    const responseText = completion.choices[0]?.message?.content || ''
 
-    // Parse the JSON response
-    let plan = []
+    let plan: unknown = []
     try {
-      // Try to extract JSON from the response
       const jsonMatch = responseText.match(/\[[\s\S]*\]/)
-      if (jsonMatch) {
-        plan = JSON.parse(jsonMatch[0])
-      } else {
-        plan = JSON.parse(responseText)
-      }
+      plan = JSON.parse(jsonMatch ? jsonMatch[0] : responseText)
     } catch (parseError) {
       console.error('Failed to parse plan:', parseError)
       console.error('Response text:', responseText)
