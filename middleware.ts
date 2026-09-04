@@ -20,25 +20,34 @@ export async function middleware(request: NextRequest) {
   // render so the auth form can explain what is missing.
   if (!isSupabaseConfigured) return NextResponse.next()
 
-  const { response, user } = await updateSession(request)
-  const { pathname } = request.nextUrl
+  try {
+    const { response, user } = await updateSession(request)
+    const { pathname } = request.nextUrl
 
-  if (isProtected(pathname) && !user) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/auth'
-    url.search = ''
-    url.searchParams.set('next', pathname)
-    return NextResponse.redirect(url)
+    if (isProtected(pathname) && !user) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/auth'
+      url.search = ''
+      url.searchParams.set('next', pathname)
+      return NextResponse.redirect(url)
+    }
+
+    if (pathname === '/auth' && user) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/dashboard'
+      url.search = ''
+      return NextResponse.redirect(url)
+    }
+
+    return response
+  } catch (err) {
+    // Last line of defence: middleware runs on every request, so an uncaught
+    // error here is a site-wide 500. Fail open and log. Protected pages still
+    // have their client-side auth gate, and every table is behind RLS, so
+    // nothing is exposed by letting the request through.
+    console.error('[middleware] failed open:', err instanceof Error ? err.stack ?? err.message : err)
+    return NextResponse.next()
   }
-
-  if (pathname === '/auth' && user) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/dashboard'
-    url.search = ''
-    return NextResponse.redirect(url)
-  }
-
-  return response
 }
 
 export const config = {
