@@ -13,7 +13,7 @@
     "@supabase/ssr": "^0.12.6",
     "@supabase/supabase-js": "^2.38.4",
     "groq-sdk": "^0.4.0",
-    "next": "^14",
+    "next": "^15",
     "react": "^18",
     "react-dom": "^18"
   },
