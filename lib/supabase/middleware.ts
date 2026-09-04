@@ -1,6 +1,6 @@
 import { createServerClient } from '@supabase/ssr'
 import type { User } from '@supabase/supabase-js'
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse, type NextRequest } from '../next-edge'
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from './env'
 
 /**

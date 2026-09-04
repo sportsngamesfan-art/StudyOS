@@ -1,4 +1,4 @@
-import { NextResponse, type NextRequest } from 'next/server'
+import { NextResponse, type NextRequest } from './lib/next-edge'
 // Relative on purpose. Vercel packages middleware as a separate Edge Function
 // and its tracer does not resolve the "@/" tsconfig alias there, so aliased
 // imports fail at deploy time with "referencing unsupported modules" even
