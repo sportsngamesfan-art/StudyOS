@@ -31,6 +31,11 @@ const config = {
       transitionDuration: {
         theme: 'var(--animation-duration, 200ms)',
       },
+      // Makes `transition-theme` a real utility. It was used throughout the app
+      // but only `duration-theme` had been defined, so it emitted no CSS.
+      transitionProperty: {
+        theme: 'color, background-color, border-color, box-shadow, transform, opacity',
+      },
     },
   },
   plugins: [],

@@ -5,6 +5,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import { supabase } from '@/lib/supabase'
 import Link from 'next/link'
 import { User } from '@supabase/supabase-js'
+import { UserProvider } from '@/components/user-provider'
 
 const NAV_ITEMS = [
   {
@@ -257,7 +258,9 @@ export default function DashboardLayout({
             <span className="hidden sm:inline">{user?.email}</span>
           </Link>
         </header>
-        <div className="flex-1 p-4 md:p-6 overflow-auto">{children}</div>
+        <div className="flex-1 p-4 md:p-6 overflow-auto">
+          <UserProvider user={user}>{children}</UserProvider>
+        </div>
       </main>
     </div>
   )
