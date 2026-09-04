@@ -1,4 +1,5 @@
 import { forwardRef, type ButtonHTMLAttributes } from 'react'
+import Link from 'next/link'
 import { cn } from '@/lib/cn'
 import { Spinner } from './spinner'
 
@@ -10,6 +11,11 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: Size
   /** Shows a spinner and disables the button. */
   loading?: boolean
+  /**
+   * Render as a Next.js Link with button styling. Use this instead of
+   * wrapping a Button in a Link: a <button> inside an <a> is invalid HTML.
+   */
+  href?: string
 }
 
 const base =
@@ -40,18 +46,29 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     loading = false,
     disabled,
     type = 'button',
+    href,
     children,
     ...rest
   },
   ref
 ) {
+  const classes = cn(base, variants[variant], variant !== 'link' && sizes[size], className)
+
+  if (href) {
+    return (
+      <Link href={href} className={classes}>
+        {children}
+      </Link>
+    )
+  }
+
   const filled = variant === 'primary' || variant === 'secondary'
   return (
     <button
       ref={ref}
       type={type}
       disabled={disabled || loading}
-      className={cn(base, variants[variant], variant !== 'link' && sizes[size], className)}
+      className={classes}
       {...rest}
     >
       {loading && <Spinner size="sm" tone={filled ? 'white' : 'primary'} />}

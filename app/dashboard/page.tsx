@@ -12,6 +12,7 @@ interface Stats {
   documents: number
   assignments: number
   classes: number
+  plans: number
 }
 
 interface Step {
@@ -26,7 +27,7 @@ interface Step {
 export default function DashboardPage() {
   const user = useUser()
   const router = useRouter()
-  const [stats, setStats] = useState<Stats>({ documents: 0, assignments: 0, classes: 0 })
+  const [stats, setStats] = useState<Stats>({ documents: 0, assignments: 0, classes: 0, plans: 0 })
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -34,15 +35,17 @@ export default function DashboardPage() {
       try {
         const count = (table: string) =>
           supabase.from(table).select('*', { count: 'exact', head: true }).eq('user_id', user.id)
-        const [documents, assignments, timetable] = await Promise.all([
+        const [documents, assignments, timetable, plans] = await Promise.all([
           count('documents'),
           count('assignments'),
           count('timetable'),
+          count('study_plans'),
         ])
         setStats({
           documents: documents.count ?? 0,
           assignments: assignments.count ?? 0,
           classes: timetable.count ?? 0,
+          plans: plans.count ?? 0,
         })
       } catch (error) {
         console.error('Error loading stats:', error)
@@ -77,7 +80,7 @@ export default function DashboardPage() {
       cta: 'Upload a document',
     },
     {
-      done: false,
+      done: stats.plans > 0,
       label: 'Generate a study plan',
       href: '/dashboard/plan',
       cta: 'Generate plan',

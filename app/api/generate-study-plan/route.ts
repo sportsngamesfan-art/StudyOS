@@ -6,7 +6,17 @@ import { buildStudyPlanPrompt } from '@/lib/study-plan-prompt'
 export const dynamic = 'force-dynamic'
 
 /**
- * Generates a study plan for the signed-in user.
+ * Reports whether the optional AI path is available so the plan page can
+ * hide the button rather than offer something that will fail. Reveals only
+ * a boolean. The admin toggle planned for later replaces this env check.
+ */
+export async function GET() {
+  return NextResponse.json({ enabled: Boolean(process.env.GROQ_API_KEY) })
+}
+
+/**
+ * Optional AI suggestions for the signed-in user. The deterministic
+ * scheduler in lib/planner is the default path; this is an extra.
  *
  * The request body is deliberately ignored. The route reads the caller's own
  * timetable and pending assignments (RLS scopes the queries to them) and
@@ -21,6 +31,13 @@ export async function POST() {
 
   if (!user) {
     return NextResponse.json({ error: 'Not authenticated' }, { status: 401 })
+  }
+
+  if (!process.env.GROQ_API_KEY) {
+    return NextResponse.json(
+      { error: 'AI suggestions are not enabled on this deployment' },
+      { status: 503 }
+    )
   }
 
   try {
