@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { supabase } from '@/lib/supabase'
 import { useUser } from '@/components/user-provider'
 import { cn } from '@/lib/cn'
+import { awardXp } from '@/lib/gamification/award'
 import type {
   AssignmentRow,
   StudyPlanRow,
@@ -333,7 +334,10 @@ export default function StudyPlanPage() {
       console.error('Error updating session:', updateError)
       setSessions((prev) => prev.map((s) => (s.id === session.id ? session : s)))
       setError('Failed to update session')
+      return
     }
+    // Paid once per session; un-ticking and re-ticking does not pay again.
+    if (completed_at) void awardXp('session_completed', session.id)
   }
 
   const askAi = async () => {

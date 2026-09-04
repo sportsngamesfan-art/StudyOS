@@ -6,6 +6,7 @@ import { useUser } from '@/components/user-provider'
 import { DIFFICULTIES, type Difficulty } from '@/lib/constants'
 import type { AssignmentRow } from '@/lib/types'
 import { cn } from '@/lib/cn'
+import { awardXp } from '@/lib/gamification/award'
 import {
   Alert,
   Button,
@@ -141,6 +142,8 @@ export default function AssignmentsPage() {
         .eq('id', assignment.id)
       if (updateError) throw updateError
       setSuccess(assignment.completed ? 'Marked as pending' : 'Marked as completed')
+      // Paid once per assignment, however many times it is toggled.
+      if (!assignment.completed) void awardXp('assignment_completed', assignment.id)
       await loadAssignments()
     } catch (err) {
       console.error('Error updating assignment:', err)

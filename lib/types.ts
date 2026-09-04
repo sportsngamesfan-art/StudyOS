@@ -76,3 +76,97 @@ export interface StudyPlanSessionRow {
   end_time: string
   completed_at: string | null
 }
+
+// --- 0003_learn.sql ----------------------------------------------------------
+
+export interface DeckRow {
+  id: string
+  /** null = official content */
+  owner_id: string | null
+  title: string
+  description: string | null
+  subject: string | null
+  published: boolean
+  created_at: string
+  updated_at: string
+}
+
+export interface FlashcardRow {
+  id: string
+  deck_id: string
+  front: string
+  back: string
+  hint: string | null
+  sort: number
+  created_at: string
+}
+
+export interface FlashcardReviewRow {
+  card_id: string
+  user_id: string
+  ease_factor: number
+  interval_days: number
+  repetitions: number
+  due_at: string
+  last_grade: number | null
+  reviewed_at: string | null
+}
+
+export type QuestionKind = 'mcq' | 'true_false'
+
+export interface QuizRow {
+  id: string
+  owner_id: string | null
+  title: string
+  description: string | null
+  subject: string | null
+  published: boolean
+  created_at: string
+}
+
+export interface QuizQuestionRow {
+  id: string
+  quiz_id: string
+  kind: QuestionKind
+  prompt: string
+  explanation: string | null
+  sort: number
+}
+
+export interface QuizOptionRow {
+  id: string
+  question_id: string
+  text: string
+  is_correct: boolean
+  sort: number
+}
+
+export interface QuizAttemptRow {
+  id: string
+  quiz_id: string
+  user_id: string
+  started_at: string
+  finished_at: string | null
+  score: number
+  max_score: number
+}
+
+export interface BadgeRow {
+  slug: string
+  name: string
+  description: string
+  icon: string
+  rule_kind: 'xp_total' | 'streak' | 'cards_reviewed' | 'quizzes_completed' | 'perfect_quizzes'
+  threshold: number
+  sort: number
+}
+
+/** Shape returned by the learn_stats() function. */
+export interface LearnStats {
+  total_xp: number
+  streak: number
+  longest_streak: number
+  due_reviews: number
+  cards_reviewed: number
+  badges: string[]
+}
