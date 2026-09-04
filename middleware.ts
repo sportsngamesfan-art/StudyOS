@@ -1,6 +1,10 @@
 import { NextResponse, type NextRequest } from 'next/server'
-import { updateSession } from '@/lib/supabase/middleware'
-import { isSupabaseConfigured } from '@/lib/supabase/env'
+// Relative on purpose. Vercel packages middleware as a separate Edge Function
+// and its tracer does not resolve the "@/" tsconfig alias there, so aliased
+// imports fail at deploy time with "referencing unsupported modules" even
+// though `next build` succeeds. Keep everything middleware imports relative.
+import { updateSession } from './lib/supabase/middleware'
+import { isSupabaseConfigured } from './lib/supabase/env'
 
 /** Route prefixes that require a signed-in user. */
 const PROTECTED_PREFIXES = ['/dashboard']
