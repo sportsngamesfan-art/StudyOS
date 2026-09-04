@@ -26,7 +26,7 @@ const config = {
         muted: 'var(--color-muted)',
       },
       fontFamily: {
-        sans: ['var(--font-inter)', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
       },
       transitionDuration: {
         theme: 'var(--animation-duration, 200ms)',
